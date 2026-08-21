@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
   <title id="title">Junie's Budget Tracker icon</title>
-  <rect width="512" height="512" rx="116" fill="#6d5dfc"/>
+  <rect width="512" height="512" rx="116" fill="#2563eb"/>
   <path d="M128 150c0-22 18-40 40-40h176c22 0 40 18 40 40v212c0 22-18 40-40 40H168c-22 0-40-18-40-40V150Z" fill="#fff" opacity=".97"/>
-  <path d="M128 190h256v54H128z" fill="#ece9ff"/>
-  <circle cx="184" cy="217" r="10" fill="#6d5dfc"/>
-  <circle cx="226" cy="217" r="10" fill="#6d5dfc"/>
-  <circle cx="268" cy="217" r="10" fill="#6d5dfc"/>
-  <path d="M180 302h58M180 342h122" stroke="#6d5dfc" stroke-width="22" stroke-linecap="round"/>
-  <circle cx="326" cy="302" r="30" fill="#6d5dfc"/>
+  <path d="M128 190h256v54H128z" fill="#eaf2ff"/>
+  <circle cx="184" cy="217" r="10" fill="#2563eb"/>
+  <circle cx="226" cy="217" r="10" fill="#2563eb"/>
+  <circle cx="268" cy="217" r="10" fill="#2563eb"/>
+  <path d="M180 302h58M180 342h122" stroke="#2563eb" stroke-width="22" stroke-linecap="round"/>
+  <circle cx="326" cy="302" r="30" fill="#2563eb"/>
   <path d="M326 286v32M310 302h32" stroke="#fff" stroke-width="10" stroke-linecap="round"/>
 </svg>
