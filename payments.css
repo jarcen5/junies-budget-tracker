@@ -1,0 +1,139 @@
+.payment-month-picker {
+  margin: 0 0 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--accent-soft);
+}
+
+.payment-month-picker label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.payment-month-input-wrap {
+  display: flex;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface);
+  padding: 7px 9px;
+}
+
+.payment-month-input-wrap input {
+  display: block;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  padding: 0;
+}
+
+.payment-month-picker p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.4;
+}
+
+.monthly-payment-editor {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.payment-comparison,
+.balance-status {
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: .74rem;
+  line-height: 1.45;
+}
+
+.balance-status {
+  padding: 7px 9px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.payment-ahead { color: var(--success); }
+.payment-short { color: var(--danger); }
+
+.payment-entry-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 8px;
+}
+
+.payment-entry-row label {
+  min-width: 0;
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.payment-entry-row label > span {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.monthly-paid-input,
+.monthly-balance-input {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.balance-helper {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: .7rem;
+  line-height: 1.4;
+}
+
+#cardPaymentsMetric {
+  border-color: #bfdbfe;
+  background: #f7fbff;
+}
+
+@media (min-width: 640px) {
+  #dashboardView .metric-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .payment-entry-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .save-payment-button {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 380px) {
+  .payment-month-picker label {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .payment-entry-row {
+    grid-template-columns: 1fr;
+  }
+
+  .save-payment-button {
+    grid-column: auto;
+  }
+}

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="description" content="A private, mobile-first tracker for credit card balances, bills, and due dates." />
+  <title>Junie's Budget Tracker</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="payments.css" />
+  <style>
+    :root { --surface-soft: #eef5ff; --accent: #2563eb; --accent-dark: #1d4ed8; --accent-soft: #eaf2ff; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible { outline-color: rgba(37, 99, 235, 0.28); }
+    .hero-card { background: linear-gradient(145deg, #1d4ed8, #60a5fa); }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Personal finance</p>
+        <h1>Junie's Budget Tracker</h1>
+      </div>
+      <button class="icon-button" id="privacyToggle" type="button" aria-label="Hide balances" title="Hide balances">◉</button>
+    </header>
+
+    <main>
+      <section class="view active" id="dashboardView" aria-labelledby="dashboardTab">
+        <div class="hero-card">
+          <div>
+            <p class="muted">Total card balance</p>
+            <p class="hero-amount money" id="totalBalance">$0.00</p>
+          </div>
+          <div class="hero-meta">
+            <span><strong id="utilization">0%</strong> utilization</span>
+            <span><strong class="money" id="availableCredit">$0.00</strong> available</span>
+          </div>
+        </div>
+
+        <div class="metric-grid">
+          <article class="metric-card">
+            <span class="metric-label">Due this month</span>
+            <strong class="metric-value money" id="dueThisMonth">$0.00</strong>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Remaining</span>
+            <strong class="metric-value money" id="remainingThisMonth">$0.00</strong>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Next payment</span>
+            <strong class="metric-value" id="nextPayment">Nothing due</strong>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Paid</span>
+            <strong class="metric-value" id="paidCount">0 / 0</strong>
+          </article>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">This month</p>
+            <h2>Upcoming payments</h2>
+          </div>
+          <button class="text-button" id="quickAddButton" type="button">+ Add</button>
+        </div>
+        <div class="stack" id="upcomingList"></div>
+      </section>
+
+      <section class="view" id="calendarView" aria-labelledby="calendarTab" hidden>
+        <div class="calendar-toolbar">
+          <button class="icon-button" id="prevMonth" type="button" aria-label="Previous month">‹</button>
+          <div class="calendar-title-wrap">
+            <p class="eyebrow">Due-date calendar</p>
+            <h2 id="calendarTitle">Month</h2>
+          </div>
+          <button class="icon-button" id="nextMonth" type="button" aria-label="Next month">›</button>
+        </div>
+        <div class="calendar-weekdays" aria-hidden="true">
+          <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+        <p class="helper">Tap a payment in the calendar to edit it or mark it paid.</p>
+      </section>
+
+      <section class="view" id="accountsView" aria-labelledby="accountsTab" hidden>
+        <div class="section-heading top-section-heading">
+          <div>
+            <p class="eyebrow">Manage</p>
+            <h2>Cards & bills</h2>
+          </div>
+          <button class="primary-button compact" id="addItemButton" type="button">+ Add</button>
+        </div>
+
+        <div class="segmented" role="tablist" aria-label="Cards and bills">
+          <button class="segment active" id="cardsSegment" type="button" role="tab" aria-selected="true">Credit cards</button>
+          <button class="segment" id="billsSegment" type="button" role="tab" aria-selected="false">Bills</button>
+        </div>
+
+        <div class="stack" id="cardsList"></div>
+        <div class="stack" id="billsList" hidden></div>
+      </section>
+
+      <section class="view" id="settingsView" aria-labelledby="settingsTab" hidden>
+        <div class="top-section-heading">
+          <p class="eyebrow">Preferences</p>
+          <h2>Settings & backup</h2>
+        </div>
+
+        <div class="settings-group">
+          <div class="setting-row">
+            <div>
+              <strong>Hide balances by default</strong>
+              <p class="muted">Mask dollar amounts whenever you open the tracker.</p>
+            </div>
+            <label class="switch" aria-label="Hide balances by default">
+              <input type="checkbox" id="hideByDefault" />
+              <span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Backup your data</h3>
+          <p class="muted">Version 1 stores your information only in this browser. Export a backup before clearing browser data or switching phones.</p>
+          <div class="button-row">
+            <button class="secondary-button" id="exportButton" type="button">Export backup</button>
+            <button class="secondary-button" id="importButton" type="button">Import backup</button>
+            <input id="importFile" type="file" accept="application/json,.json" hidden />
+          </div>
+        </div>
+
+        <div class="settings-group danger-zone">
+          <h3>Monthly status</h3>
+          <p class="muted">Clear paid checkmarks for the currently selected calendar month without deleting your cards or bills.</p>
+          <button class="secondary-button" id="resetPaidButton" type="button">Reset this month's paid status</button>
+        </div>
+
+        <div class="privacy-note">
+          <strong>Privacy note</strong>
+          <p>Use card nicknames only. Do not enter full card numbers, passwords, security codes, or bank account numbers.</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Primary navigation">
+      <button class="nav-item active" id="dashboardTab" data-view="dashboardView" type="button"><span>⌂</span>Dashboard</button>
+      <button class="nav-item" id="calendarTab" data-view="calendarView" type="button"><span>▦</span>Calendar</button>
+      <button class="nav-item" id="accountsTab" data-view="accountsView" type="button"><span>▤</span>Cards & bills</button>
+      <button class="nav-item" id="settingsTab" data-view="settingsView" type="button"><span>⚙</span>Settings</button>
+    </nav>
+  </div>
+
+  <dialog id="itemDialog">
+    <form method="dialog" id="itemForm" class="dialog-card">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow" id="dialogEyebrow">New item</p>
+          <h2 id="dialogTitle">Add credit card</h2>
+        </div>
+        <button class="icon-button" id="closeDialogButton" value="cancel" aria-label="Close">×</button>
+      </div>
+
+      <input type="hidden" id="itemId" />
+      <input type="hidden" id="itemType" />
+
+      <label>
+        <span>Name</span>
+        <input id="itemName" type="text" maxlength="50" placeholder="e.g. Discover" required />
+      </label>
+
+      <div id="cardFields">
+        <div class="field-grid">
+          <label><span>Current balance</span><input id="cardBalance" type="number" min="0" step="0.01" inputmode="decimal" /></label>
+          <label><span>Credit limit</span><input id="cardLimit" type="number" min="0" step="0.01" inputmode="decimal" /></label>
+        </div>
+        <div class="field-grid">
+          <label><span>Statement balance</span><input id="statementBalance" type="number" min="0" step="0.01" inputmode="decimal" /></label>
+          <label><span>Minimum payment</span><input id="minimumPayment" type="number" min="0" step="0.01" inputmode="decimal" /></label>
+        </div>
+        <label><span>Monthly due day</span><input id="cardDueDay" type="number" min="1" max="31" inputmode="numeric" placeholder="24" /></label>
+      </div>
+
+      <div id="billFields" hidden>
+        <label><span>Amount</span><input id="billAmount" type="number" min="0" step="0.01" inputmode="decimal" /></label>
+        <label class="checkbox-row"><input id="billRecurring" type="checkbox" checked /> <span>Repeats every month</span></label>
+        <label id="billDueDayWrap"><span>Monthly due day</span><input id="billDueDay" type="number" min="1" max="31" inputmode="numeric" placeholder="15" /></label>
+        <label id="billDateWrap" hidden><span>One-time due date</span><input id="billDate" type="date" /></label>
+      </div>
+
+      <label><span>Notes <small>(optional)</small></span><textarea id="itemNotes" rows="3" maxlength="200" placeholder="Anything helpful to remember"></textarea></label>
+
+      <div class="dialog-actions">
+        <button class="danger-button" id="deleteItemButton" type="button" hidden>Delete</button>
+        <span class="dialog-spacer"></span>
+        <button class="secondary-button" value="cancel" type="button" id="cancelDialogButton">Cancel</button>
+        <button class="primary-button" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+  <script src="payments.js"></script>
+</body>
+</html>
