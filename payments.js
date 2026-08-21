@@ -20,6 +20,20 @@ function paymentMonthLabel(key, short = false) {
   }).format(new Date(year, month - 1, 1));
 }
 
+function paymentComparison(card, paid) {
+  const minimum = Math.max(Number(card.minimumPayment) || 0, 0);
+  if (minimum <= 0) return `Minimum not set · Paid <span class="money">${money.format(paid)}</span>`;
+  if (paid <= 0) return `Minimum <span class="money">${money.format(minimum)}</span> · No payment amount entered`;
+  const difference = paid - minimum;
+  if (difference > 0) {
+    return `Minimum <span class="money">${money.format(minimum)}</span> · Paid <span class="money">${money.format(paid)}</span> · <strong class="payment-ahead"><span class="money">${money.format(difference)}</span> above minimum</strong>`;
+  }
+  if (difference === 0) {
+    return `Minimum <span class="money">${money.format(minimum)}</span> · Paid <span class="money">${money.format(paid)}</span> · Minimum met`;
+  }
+  return `Minimum <span class="money">${money.format(minimum)}</span> · Paid <span class="money">${money.format(paid)}</span> · <strong class="payment-short"><span class="money">${money.format(Math.abs(difference))}</span> below minimum</strong>`;
+}
+
 function saveMonthlyPayment(cardId, key, rawValue) {
   const card = state.cards.find((entry) => entry.id === cardId);
   if (!card) return;
@@ -80,7 +94,7 @@ function ensurePaymentMonthPicker() {
         <span>Payment month</span>
         <span class="payment-month-input-wrap"><input id="paymentMonthPicker" type="month" /></span>
       </label>
-      <p>Choose a month, then type the total amount you paid on each card.</p>`;
+      <p>Choose a month, then enter the total you paid on each card. Your minimum payment stays visible for comparison.</p>`;
     cardsList.parentNode.insertBefore(picker, cardsList);
     $('paymentMonthPicker').addEventListener('change', (event) => {
       if (!event.target.value) return;
@@ -112,11 +126,14 @@ function decorateAccountsPaymentAmounts() {
 
     const amount = paidAmountFor(card, selectedPaymentMonth);
     editor.innerHTML = `
-      <label>
-        <span>Paid ${paymentMonthLabel(selectedPaymentMonth, true)}</span>
-        <input class="monthly-paid-input" type="number" min="0" step="0.01" inputmode="decimal" value="${amount || ''}" placeholder="0.00" aria-label="Amount paid to ${escapeHtml(card.name)} in ${paymentMonthLabel(selectedPaymentMonth)}" />
-      </label>
-      <button class="mini-button save-payment-button" type="button">Save</button>`;
+      <div class="payment-comparison">${paymentComparison(card, amount)}</div>
+      <div class="payment-entry-row">
+        <label>
+          <span>Amount paid in ${paymentMonthLabel(selectedPaymentMonth, true)}</span>
+          <input class="monthly-paid-input" type="number" min="0" step="0.01" inputmode="decimal" value="${amount || ''}" placeholder="0.00" aria-label="Amount paid to ${escapeHtml(card.name)} in ${paymentMonthLabel(selectedPaymentMonth)}" />
+        </label>
+        <button class="mini-button save-payment-button" type="button">Save</button>
+      </div>`;
 
     const input = editor.querySelector('.monthly-paid-input');
     const saveButton = editor.querySelector('.save-payment-button');
