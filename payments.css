@@ -1,0 +1,97 @@
+.payment-month-picker {
+  margin: 0 0 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--accent-soft);
+}
+
+.payment-month-picker label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.payment-month-input-wrap {
+  display: flex;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface);
+  padding: 7px 9px;
+}
+
+.payment-month-input-wrap input {
+  display: block;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  padding: 0;
+}
+
+.payment-month-picker p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.4;
+}
+
+.monthly-payment-editor {
+  display: flex;
+  align-items: end;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.monthly-payment-editor label {
+  flex: 1;
+  min-width: 0;
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.monthly-payment-editor label > span {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.monthly-paid-input {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+#cardPaymentsMetric {
+  border-color: #bfdbfe;
+  background: #f7fbff;
+}
+
+@media (min-width: 640px) {
+  #dashboardView .metric-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 380px) {
+  .payment-month-picker label {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .monthly-payment-editor {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
