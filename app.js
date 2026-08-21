@@ -250,7 +250,7 @@ function renderCalendar() {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = `calendar-item ${status.key}`;
-        button.textContent = `${payment.name} ${money.format(payment.amount)}`;
+        button.innerHTML = `<span>${escapeHtml(payment.name)}</span> <span class="money">${money.format(payment.amount)}</span>`;
         button.setAttribute('aria-label', `${payment.name}, ${money.format(payment.amount)}, ${status.label}`);
         button.addEventListener('click', () => openDialog(payment.type, payment.id));
         day.append(button);
@@ -500,8 +500,9 @@ $('nextMonth').addEventListener('click', () => { calendarCursor = new Date(calen
 $('billRecurring').addEventListener('change', updateBillDateFields);
 $('itemForm').addEventListener('submit', submitItem);
 $('deleteItemButton').addEventListener('click', deleteCurrentItem);
+$('closeDialogButton').addEventListener('click', () => $('itemDialog').close());
 $('cancelDialogButton').addEventListener('click', () => $('itemDialog').close());
-$('hideByDefault').addEventListener('change', (event) => { state.settings.hideByDefault = event.target.checked; saveState(); showToast('Preference saved.'); });
+$('hideByDefault').addEventListener('change', (event) => { state.settings.hideByDefault = event.target.checked; balancesHidden = event.target.checked; saveState(); renderPrivacy(); showToast('Preference saved.'); });
 $('exportButton').addEventListener('click', exportBackup);
 $('importButton').addEventListener('click', () => $('importFile').click());
 $('importFile').addEventListener('change', (event) => importBackup(event.target.files?.[0]));
