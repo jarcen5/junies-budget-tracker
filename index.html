@@ -3,12 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#6d5dfc" />
+  <meta name="theme-color" content="#2563eb" />
   <meta name="description" content="A private, mobile-first tracker for credit card balances, bills, and due dates." />
   <title>Junie's Budget Tracker</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root { --surface-soft: #eef5ff; --accent: #2563eb; --accent-dark: #1d4ed8; --accent-soft: #eaf2ff; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible { outline-color: rgba(37, 99, 235, 0.28); }
+    .hero-card { background: linear-gradient(145deg, #1d4ed8, #60a5fa); }
+  </style>
 </head>
 <body>
   <div class="app-shell">
@@ -75,7 +80,7 @@
           <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
         </div>
         <div class="calendar-grid" id="calendarGrid"></div>
-        <p class="helper">Tap a calendar payment to edit it. Mark payments paid from the Dashboard.</p>
+        <p class="helper">Tap a payment in the calendar to edit it or mark it paid.</p>
       </section>
 
       <section class="view" id="accountsView" aria-labelledby="accountsTab" hidden>
@@ -153,7 +158,7 @@
           <p class="eyebrow" id="dialogEyebrow">New item</p>
           <h2 id="dialogTitle">Add credit card</h2>
         </div>
-        <button class="icon-button" id="closeDialogButton" type="button" aria-label="Close">×</button>
+        <button class="icon-button" value="cancel" aria-label="Close">×</button>
       </div>
 
       <input type="hidden" id="itemId" />
@@ -188,7 +193,7 @@
       <div class="dialog-actions">
         <button class="danger-button" id="deleteItemButton" type="button" hidden>Delete</button>
         <span class="dialog-spacer"></span>
-        <button class="secondary-button" type="button" id="cancelDialogButton">Cancel</button>
+        <button class="secondary-button" value="cancel" type="button" id="cancelDialogButton">Cancel</button>
         <button class="primary-button" type="submit">Save</button>
       </div>
     </form>
