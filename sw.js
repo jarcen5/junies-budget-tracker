@@ -1,4 +1,4 @@
-const CACHE = 'junies-budget-tracker-v1';
+const CACHE = 'junies-budget-tracker-v1-blue';
 const ASSETS = ['./', './index.html', './styles.css', './app.js', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', (event) => {
