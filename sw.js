@@ -1,4 +1,4 @@
-const CACHE = 'junies-budget-tracker-v1-payments';
+const CACHE = 'junies-budget-tracker-v1-rolling-balances';
 const ASSETS = ['./', './index.html', './styles.css', './payments.css', './app.js', './payments.js', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', (event) => {
