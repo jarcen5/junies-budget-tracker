@@ -43,6 +43,8 @@
 #accountsView .segment { min-height: 46px; }
 #cardsList,
 #billsList { padding-top: 2px; }
+#accountsView #cardsList[hidden],
+#accountsView #billsList[hidden] { display: none !important; }
 
 .v11-balance-adjust {
   display: grid;
