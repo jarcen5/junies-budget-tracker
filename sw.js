@@ -1,5 +1,5 @@
-const CACHE = 'junies-budget-tracker-v1-rolling-balances';
-const ASSETS = ['./', './index.html', './styles.css', './payments.css', './app.js', './payments.js', './manifest.webmanifest', './icon.svg'];
+const CACHE = 'junies-budget-tracker-v1.1';
+const ASSETS = ['./', './index.html', './styles.css', './payments.css', './v11.css', './app.js', './payments.js', './v11.js', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)));
@@ -21,5 +21,16 @@ self.addEventListener('fetch', (event) => {
         return response;
       })
       .catch(() => caches.match(event.request).then((cached) => cached || caches.match('./index.html')))
+  );
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windows) => {
+      const existing = windows[0];
+      if (existing) return existing.focus();
+      return clients.openWindow('./');
+    })
   );
 });
