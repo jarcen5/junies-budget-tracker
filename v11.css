@@ -1,0 +1,124 @@
+.v11-ready #dashboardView > .metric-grid { display: none; }
+
+.v11-focus-section { margin-top: 14px; }
+.v11-heading { margin-top: 18px; }
+.v11-clear-card,
+.v11-tomorrow-card {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+.v11-clear-card strong,
+.v11-tomorrow-card strong { display: block; }
+.v11-clear-card p,
+.v11-tomorrow-card p { margin: 5px 0 0; color: var(--muted); font-size: .82rem; line-height: 1.45; }
+.v11-tomorrow-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  border-color: #bfdbfe;
+  background: #f7fbff;
+}
+.v11-tomorrow-card > span {
+  flex: 0 0 auto;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: .7rem;
+  font-weight: 800;
+}
+
+#accountsView .segmented {
+  position: sticky;
+  z-index: 4;
+  top: 0;
+  grid-template-columns: 1fr 1fr;
+  margin-inline: -2px;
+  box-shadow: 0 8px 18px rgba(31,35,68,.06);
+}
+#accountsView .segment { min-height: 46px; }
+#cardsList,
+#billsList { padding-top: 2px; }
+
+.v11-balance-adjust {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  align-items: end;
+  gap: 8px;
+}
+.v11-balance-adjust label {
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 800;
+}
+.v11-balance-adjust label > span { display: block; margin-bottom: 5px; }
+
+.calendar-month-summary { margin-top: 22px; }
+.v11-calendar-metrics { margin-top: 0; }
+.v11-agenda-heading { margin-top: 22px; }
+.v11-more-items {
+  width: 100%;
+  padding: 3px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  text-align: left;
+  font-weight: 800;
+}
+
+.v11-payment-row .payment-main p { line-height: 1.35; }
+.v11-dialog { width: min(94vw, 560px); max-height: 88svh; padding: 0; border: 0; border-radius: 24px; background: transparent; }
+.v11-dialog::backdrop { background: rgba(23,25,40,.48); backdrop-filter: blur(3px); }
+.v11-payment-choice { display: grid; gap: 9px; margin-bottom: 14px; }
+.choice-card {
+  display: flex !important;
+  align-items: center;
+  gap: 11px;
+  margin: 0 !important;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fbfbfd;
+}
+.choice-card input { width: 18px; height: 18px; accent-color: var(--accent); }
+.choice-card > span { margin: 0 !important; }
+.choice-card strong { display: block; }
+.choice-card small { display: block; margin-top: 3px; }
+
+.v11-reminder-row { margin-top: 8px; }
+.v11-time-setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 14px 0 10px;
+  font-size: .84rem;
+  font-weight: 800;
+}
+.v11-time-setting input {
+  min-height: 40px;
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+@media (max-width: 520px) {
+  .v11-payment-row { align-items: flex-start; }
+  .v11-payment-row .payment-actions { align-self: center; }
+  .v11-balance-adjust { grid-template-columns: 1fr; }
+  .v11-balance-adjust .mini-button { width: 100%; }
+  .v11-reminder-row { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 380px) {
+  .v11-tomorrow-card { align-items: flex-start; flex-direction: column; }
+  .v11-payment-row { flex-wrap: wrap; }
+  .v11-payment-row .payment-actions { width: 100%; }
+  .v11-payment-row .payment-actions .mini-button { width: 100%; }
+}
