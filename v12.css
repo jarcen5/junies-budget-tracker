@@ -1,5 +1,10 @@
 .v12-ready .bottom-nav { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .v12-ready .nav-item { padding-inline: 2px; font-size: .62rem; }
+.v12-ready #dashboardTab { order: 1; }
+.v12-ready #calendarTab { order: 2; }
+.v12-ready #accountsTab { order: 3; }
+.v12-ready #billsTab { order: 4; }
+.v12-ready #settingsTab { order: 5; }
 .v12-ready #accountsView .segmented[hidden] { display: none !important; }
 .v12-ready #accountsView #billsList { display: none !important; }
 .v12-ready #accountsView #cardsList { display: grid !important; }
