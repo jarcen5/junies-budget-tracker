@@ -4,6 +4,12 @@ Junie's Budget Tracker is a private, mobile-first budgeting web app for managing
 
 The project focuses on making day-to-day bill tracking simple while keeping sensitive financial data out of the source code and off a remote database.
 
+## Live demo
+
+**[Open the portfolio demo](https://junies-budget-tracker.vercel.app/demo.html)**
+
+The portfolio demo is preloaded with **fictional cards, balances, bills, payment amounts, due dates, and categories** so the application's calculations and monthly workflows can be explored without exposing real financial information. The demo is isolated from the normal tracker using a separate browser-storage origin.
+
 ## Tech stack
 
 - HTML5
@@ -18,11 +24,14 @@ The project focuses on making day-to-day bill tracking simple while keeping sens
 - Dashboard showing total credit-card balance, available credit, utilization, amount due, remaining amount, paid count, and next payment
 - Add and edit credit cards
 - Track balances, credit limits, utilization, minimum payments, and due dates
-- Add recurring or one-time bills
-- Monthly due-date calendar
+- Record monthly credit-card payment amounts and carry balances forward between months
+- Add recurring or one-time bills with categories and multiple recurrence patterns
+- Monthly due-date calendar and agenda
 - Per-month paid/unpaid status
 - Automatic payment states such as upcoming, due soon, due today, overdue, and paid
 - Separate credit-card and bill management views
+- Optional payment cutoff times and autopay tracking
+- Browser notification reminders while the app is active
 - Balance privacy toggle
 - JSON backup export/import
 - Responsive mobile-first interface
@@ -40,7 +49,7 @@ Because browser storage can be cleared, the app includes JSON backup/export func
 
 Each credit card and bill can be associated with a due date. The app builds a month-specific payment schedule, calculates outstanding amounts, and keeps payment status separate by month so recurring expenses can be tracked over time.
 
-The dashboard also calculates credit utilization from the user's stored balances and credit limits.
+Credit-card payment amounts can be recorded by month, and balances can carry forward automatically while still allowing month-specific overrides. The dashboard also calculates credit utilization from stored balances and credit limits.
 
 ## Run locally
 
@@ -54,8 +63,8 @@ Then open `http://localhost:8000`.
 
 ## Deployment
 
-The project can be deployed as a static site with no build command required.
+The project is deployed as a static site on Vercel and is connected to the GitHub repository for automatic deployments from `main`.
 
 ## What this project demonstrates
 
-This project demonstrates JavaScript state management, financial calculations, date handling, local persistence, responsive UI design, offline/PWA concepts, privacy-conscious application design, and iterative development around a practical personal workflow.
+This project demonstrates JavaScript state management, financial calculations, date and recurrence handling, local persistence, responsive UI design, offline/PWA concepts, privacy-conscious application design, and iterative development around a practical personal workflow.
