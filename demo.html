@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#2563eb" />
+  <title>Junie's Budget Tracker — Portfolio Demo</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f7fb; color: #172033; }
+    body { display: grid; grid-template-rows: auto 1fr; overflow: hidden; }
+    .demo-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 18px; background: #eff6ff; border-bottom: 1px solid #bfdbfe; color: #1e3a8a; }
+    .demo-copy { min-width: 0; }
+    .demo-copy strong { display: block; font-size: 15px; }
+    .demo-copy span { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; color: #3b5c9a; }
+    .demo-actions { display: flex; gap: 8px; flex: 0 0 auto; }
+    button, a { border: 1px solid #bfdbfe; border-radius: 10px; background: white; color: #1e40af; font: inherit; font-weight: 700; padding: 8px 12px; text-decoration: none; cursor: pointer; }
+    button:hover, a:hover { background: #dbeafe; }
+    iframe { display: block; width: 100%; height: 100%; border: 0; background: #f5f7fb; }
+    @media (max-width: 680px) {
+      .demo-bar { align-items: flex-start; flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .demo-actions { width: 100%; }
+      button, a { flex: 1; text-align: center; padding: 7px 9px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="demo-bar">
+    <div class="demo-copy">
+      <strong>Portfolio demo — fictional data only</strong>
+      <span>These cards, balances, bills, due dates, and payment details were created only to demonstrate the application.</span>
+    </div>
+    <div class="demo-actions">
+      <button id="resetDemo" type="button">Reset demo</button>
+      <a id="openFull" href="./" target="_blank" rel="noopener">Open full screen</a>
+    </div>
+  </header>
+  <iframe id="appFrame" title="Junie's Budget Tracker demo" src="./"></iframe>
+
+  <script>
+    const STORAGE_KEY = 'junies-budget-tracker-v1';
+
+    function monthKey(date = new Date()) {
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    }
+
+    function seedDemo() {
+      const currentMonth = monthKey();
+      const demoState = {
+        cards: [
+          {
+            id: 'demo-card-everyday', name: 'Everyday Rewards', balance: 684.22, limit: 5000,
+            statementBalance: 684.22, minimumPayment: 45, dueDay: 18, dueTime: '17:00', autopay: false,
+            notes: 'Fictional demo account', paidMonths: [], monthlyPaidAmounts: {},
+            balanceAnchorMonth: currentMonth, monthlyBalanceOverrides: { [currentMonth]: 684.22 }
+          },
+          {
+            id: 'demo-card-travel', name: 'Travel Card', balance: 1290.40, limit: 8000,
+            statementBalance: 1290.40, minimumPayment: 60, dueDay: 24, dueTime: '20:00', autopay: true,
+            notes: 'Fictional demo account', paidMonths: [], monthlyPaidAmounts: {},
+            balanceAnchorMonth: currentMonth, monthlyBalanceOverrides: { [currentMonth]: 1290.40 }
+          },
+          {
+            id: 'demo-card-store', name: 'Store Card', balance: 312.15, limit: 2500,
+            statementBalance: 347.15, minimumPayment: 35, dueDay: 8, dueTime: '17:00', autopay: false,
+            notes: 'Fictional demo account', paidMonths: [currentMonth], monthlyPaidAmounts: { [currentMonth]: 35 },
+            balanceAnchorMonth: currentMonth, monthlyBalanceOverrides: { [currentMonth]: 312.15 }
+          }
+        ],
+        bills: [
+          { id: 'demo-bill-rent', name: 'Rent', amount: 1450, recurring: true, recurrenceType: 'monthly', dueDay: 1, category: 'Housing', autopay: false, notes: 'Fictional demo bill', paidMonths: [currentMonth] },
+          { id: 'demo-bill-internet', name: 'Home Internet', amount: 79.99, recurring: true, recurrenceType: 'monthly', dueDay: 12, dueTime: '23:59', category: 'Utilities', autopay: true, notes: 'Fictional demo bill', paidMonths: [currentMonth] },
+          { id: 'demo-bill-insurance', name: 'Car Insurance', amount: 142.50, recurring: true, recurrenceType: 'monthly', dueDay: 16, category: 'Transportation', autopay: true, notes: 'Fictional demo bill', paidMonths: [] },
+          { id: 'demo-bill-phone', name: 'Phone', amount: 65, recurring: true, recurrenceType: 'monthly', dueDay: 20, category: 'Utilities', autopay: false, notes: 'Fictional demo bill', paidMonths: [] },
+          { id: 'demo-bill-streaming', name: 'Streaming Bundle', amount: 18.99, recurring: true, recurrenceType: 'monthly', dueDay: 25, category: 'Subscriptions', autopay: true, notes: 'Fictional demo bill', paidMonths: [] }
+        ],
+        settings: { hideByDefault: false }
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(demoState));
+    }
+
+    seedDemo();
+
+    const frame = document.getElementById('appFrame');
+    document.getElementById('resetDemo').addEventListener('click', () => {
+      seedDemo();
+      frame.src = `./?demo-reset=${Date.now()}`;
+    });
+    document.getElementById('openFull').addEventListener('click', () => seedDemo());
+  </script>
+</body>
+</html>
