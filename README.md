@@ -8,7 +8,17 @@ The project focuses on making day-to-day bill tracking simple while keeping sens
 
 **[Open the portfolio demo](https://junies-budget-tracker.vercel.app/demo.html)**
 
-The portfolio demo is preloaded with **fictional cards, balances, bills, payment amounts, due dates, and categories** so the application's calculations and monthly workflows can be explored without exposing real financial information. The demo is isolated from the normal tracker using a separate browser-storage origin.
+The portfolio demo is preloaded with **fictional cards, balances, bills, payment amounts, due dates, and categories** so the application's calculations and monthly workflows can be explored without exposing real financial information. Demo data uses a separate browser-storage key from the normal tracker.
+
+## Screenshots
+
+| Dashboard | Calendar |
+| --- | --- |
+| <img src="screenshots/dashboard-demo.png" alt="Budget Tracker dashboard with fictional portfolio data" width="420"> | <img src="screenshots/calendar-demo.png" alt="Budget Tracker due-date calendar with fictional portfolio data" width="420"> |
+| **Bills** | **Cards** |
+| <img src="screenshots/bills-demo.png" alt="Budget Tracker bills grouped by category" width="420"> | <img src="screenshots/cards-demo.png" alt="Budget Tracker credit-card management and monthly payment tracking" width="420"> |
+
+The demo showcases credit utilization, upcoming payments, a month-based payment calendar, category-grouped bills, autopay indicators, carried-forward card balances, and per-month payment tracking.
 
 ## Tech stack
 
@@ -18,6 +28,7 @@ The portfolio demo is preloaded with **fictional cards, balances, bills, payment
 - localStorage
 - Progressive Web App (PWA) manifest
 - Service worker for offline support
+- Vercel deployment
 
 ## Key features
 
