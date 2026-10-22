@@ -28,6 +28,7 @@ function v13SavePayday(event) {
     showToast('Choose a pay date.');
     return;
   }
+  const existing = v13EditingPaydayId ? v13Paydays().find((item) => item.id === v13EditingPaydayId) : null;
   const schedule = {
     id: v13EditingPaydayId || uid(),
     name: $('v13PaydayName').value.trim() || 'Payday',
@@ -36,6 +37,9 @@ function v13SavePayday(event) {
     anchorDate: semimonthly ? '' : $('v13PaydayAnchor').value,
     day1: semimonthly ? clampDueDay($('v13PaydayDay1').value) : null,
     day2: semimonthly ? clampDueDay($('v13PaydayDay2').value) : null,
+    amountOverrides: existing?.amountOverrides && typeof existing.amountOverrides === 'object' && !Array.isArray(existing.amountOverrides)
+      ? { ...existing.amountOverrides }
+      : {},
   };
   const index = v13Paydays().findIndex((item) => item.id === schedule.id);
   if (index >= 0) state.paydays[index] = schedule;
@@ -120,3 +124,60 @@ function v13PaycheckSuggestion(plan) {
   return { text: `${money.format(amount)} per payday \xb7 ${paydays.length} paydays`, amount };
 }
 
+
+
+function v13OpenPaydayAmountDialog(scheduleId, dateValue = '') {
+  const schedule = v13Paydays().find((item) => item.id === scheduleId);
+  if (!schedule) return;
+  let date = v13ParseDate(dateValue);
+  if (!date) {
+    const next = v13PaydayOccurrencesBetween(new Date(), new Date(Date.now() + 370 * 86400000)).find((row) => row.schedule.id === scheduleId);
+    date = next?.date || null;
+  }
+  if (!date) {
+    showToast('No upcoming payday found for this schedule.');
+    return;
+  }
+  v13AdjustingPaydayId = scheduleId;
+  v13AdjustingPaydayDate = v13DateKey(date);
+  $('v13PaydayAmountOverrideTitle').textContent = `Adjust ${schedule.name || 'payday'}`;
+  $('v13PaydayAmountOverrideDate').value = v13AdjustingPaydayDate;
+  $('v13PaydayAmountOverrideValue').value = v13PaydayAmountForDate(schedule, date);
+  const normal = Math.max(Number(schedule.amount) || 0, 0);
+  $('v13PaydayAmountOverrideCurrent').textContent = normal
+    ? `Normal take-home amount: ${money.format(normal)}. This change will apply only to ${v13LongDate(date)}.`
+    : `This change will apply only to ${v13LongDate(date)}.`;
+  $('v13PaydayAmountOverrideDialog').showModal();
+}
+
+function v13SavePaydayAmountOverride(event) {
+  event.preventDefault();
+  const schedule = v13Paydays().find((item) => item.id === v13AdjustingPaydayId);
+  const date = v13ParseDate($('v13PaydayAmountOverrideDate').value);
+  if (!schedule || !date) return;
+  const key = v13DateKey(date);
+  schedule.amountOverrides = schedule.amountOverrides && typeof schedule.amountOverrides === 'object' && !Array.isArray(schedule.amountOverrides)
+    ? { ...schedule.amountOverrides }
+    : {};
+  schedule.amountOverrides[key] = Math.max(Number($('v13PaydayAmountOverrideValue').value) || 0, 0);
+  saveState();
+  $('v13PaydayAmountOverrideDialog').close();
+  renderAll();
+  v13RenderPlanPage();
+  showToast(`${schedule.name || 'Payday'} adjusted for ${v13DateLabel(date)}.`);
+}
+
+function v13ClearPaydayAmountOverride() {
+  const schedule = v13Paydays().find((item) => item.id === v13AdjustingPaydayId);
+  const date = v13ParseDate($('v13PaydayAmountOverrideDate').value);
+  if (!schedule || !date) return;
+  const key = v13DateKey(date);
+  if (schedule.amountOverrides && typeof schedule.amountOverrides === 'object') {
+    delete schedule.amountOverrides[key];
+  }
+  saveState();
+  $('v13PaydayAmountOverrideDialog').close();
+  renderAll();
+  v13RenderPlanPage();
+  showToast(`One-time payday adjustment cleared for ${v13DateLabel(date)}.`);
+}
