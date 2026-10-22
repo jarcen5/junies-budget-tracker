@@ -1,5 +1,6 @@
 function v13InjectUI() {
   document.body.classList.add('v13-ready');
+  if ($('dashboardTab')) $('dashboardTab').innerHTML = '<span>⌂</span>Home';
 
   const dashboard = $('dashboardView');
   if (dashboard && !$('v13Home')) {
