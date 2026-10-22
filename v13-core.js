@@ -10,6 +10,8 @@ let v13CardQuery = '';
 let v13BillAdjustId = null;
 let v13EditingPaydayId = null;
 let v13EditingPlanId = null;
+let v13AdjustingPaydayId = null;
+let v13AdjustingPaydayDate = '';
 
 function v13DateKey(date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -98,6 +100,15 @@ function v13Plans() {
   return state.plans;
 }
 
+function v13PaydayAmountForDate(schedule, date) {
+  const overrides = schedule?.amountOverrides && typeof schedule.amountOverrides === 'object' && !Array.isArray(schedule.amountOverrides)
+    ? schedule.amountOverrides
+    : {};
+  const key = v13DateKey(date);
+  if (Object.prototype.hasOwnProperty.call(overrides, key)) return Math.max(Number(overrides[key]) || 0, 0);
+  return Math.max(Number(schedule?.amount) || 0, 0);
+}
+
 function v13PaydayOccurrencesBetween(start, end) {
   const from = v13StartOfDay(start);
   const through = v13StartOfDay(end);
@@ -114,7 +125,7 @@ function v13PaydayOccurrencesBetween(start, end) {
           const day = safeDay(cursor.getFullYear(), cursor.getMonth(), rawDay);
           const date = new Date(cursor.getFullYear(), cursor.getMonth(), day);
           if (date >= from && date <= through) {
-            results.push({ schedule, date, amount: Math.max(Number(schedule.amount) || 0, 0) });
+            results.push({ schedule, date, amount: v13PaydayAmountForDate(schedule, date) });
           }
         });
         cursor.setMonth(cursor.getMonth() + 1);
@@ -131,7 +142,7 @@ function v13PaydayOccurrencesBetween(start, end) {
       while (cursor <= last) {
         const date = new Date(cursor.getFullYear(), cursor.getMonth(), safeDay(cursor.getFullYear(), cursor.getMonth(), anchor.getDate()));
         if (date >= from && date <= through && date >= anchor) {
-          results.push({ schedule, date, amount: Math.max(Number(schedule.amount) || 0, 0) });
+          results.push({ schedule, date, amount: v13PaydayAmountForDate(schedule, date) });
         }
         cursor.setMonth(cursor.getMonth() + 1);
       }
@@ -147,7 +158,7 @@ function v13PaydayOccurrencesBetween(start, end) {
     }
     while (occurrence <= through) {
       if (occurrence >= anchor) {
-        results.push({ schedule, date: new Date(occurrence), amount: Math.max(Number(schedule.amount) || 0, 0) });
+        results.push({ schedule, date: new Date(occurrence), amount: v13PaydayAmountForDate(schedule, date) });
       }
       occurrence = new Date(occurrence.getFullYear(), occurrence.getMonth(), occurrence.getDate() + stepDays);
     }
