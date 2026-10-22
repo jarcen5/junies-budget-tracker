@@ -3,6 +3,8 @@ const STORAGE_KEY = 'junies-budget-tracker-v1';
 const defaultState = {
   cards: [],
   bills: [],
+  paydays: [],
+  plans: [],
   settings: { hideByDefault: false },
 };
 
@@ -37,6 +39,8 @@ function normalizeState(input) {
   return {
     cards: Array.isArray(input?.cards) ? input.cards.map((card) => ({ ...card, paidMonths: Array.isArray(card.paidMonths) ? card.paidMonths : [] })) : [],
     bills: Array.isArray(input?.bills) ? input.bills.map((bill) => ({ ...bill, paidMonths: Array.isArray(bill.paidMonths) ? bill.paidMonths : [] })) : [],
+    paydays: Array.isArray(input?.paydays) ? input.paydays.map((item) => ({ ...item })) : [],
+    plans: Array.isArray(input?.plans) ? input.plans.map((item) => ({ ...item })) : [],
     settings: { hideByDefault: Boolean(input?.settings?.hideByDefault) },
   };
 }
@@ -421,7 +425,7 @@ function setAccountType(type) {
 }
 
 function exportBackup() {
-  const payload = { version: 1, exportedAt: new Date().toISOString(), data: state };
+  const payload = { version: 1.3, exportedAt: new Date().toISOString(), data: state };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
