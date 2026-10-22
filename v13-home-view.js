@@ -73,6 +73,7 @@ function v13RenderHome() {
       return `<article class="payment-row v13-payday-row">
         <div class="payment-date"><strong>${payday.date.getDate()}</strong><span>${shortMonthFmt.format(payday.date)}</span></div>
         <div class="payment-main"><strong>${escapeHtml(payday.schedule.name || 'Payday')}</strong><p>${payday.amount ? `<span class="money">${money.format(payday.amount)}</span> \xb7 ` : ''}${escapeHtml(V13_PAY_FREQUENCIES[payday.schedule.frequency] || 'Payday')}</p><span class="status paid">Money in</span></div>
+        <div class="payment-actions"><button class="mini-button" type="button" data-v13-adjust-payday="${payday.schedule.id}" data-date="${v13DateKey(payday.date)}">Adjust</button></div>
       </article>`;
     }
     const row = item.payment;
@@ -87,6 +88,9 @@ function v13RenderHome() {
   $('v13TwoWeekAgenda').querySelectorAll('[data-v13-paid]').forEach((button) => {
     button.addEventListener('click', () => togglePaid(button.dataset.v13Paid, button.dataset.type, button.dataset.key));
   });
+  $('v13TwoWeekAgenda').querySelectorAll('[data-v13-adjust-payday]').forEach((button) => {
+    button.addEventListener('click', () => v13OpenPaydayAmountDialog(button.dataset.v13AdjustPayday, button.dataset.date));
+  });
 }
 
 function v13OpenDayDialog(date) {
@@ -95,7 +99,7 @@ function v13OpenDayDialog(date) {
   $('v13DayDialogTitle').textContent = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' }).format(date);
   const root = $('v13DayDialogList');
   root.innerHTML = [
-    ...paydays.map((row) => `<article class="payment-row v13-payday-row"><div class="payment-main"><strong>${escapeHtml(row.schedule.name || 'Payday')}</strong><p>${row.amount ? `<span class="money">${money.format(row.amount)}</span> \xb7 ` : ''}Payday</p><span class="status paid">Money in</span></div></article>`),
+    ...paydays.map((row) => `<article class="payment-row v13-payday-row"><div class="payment-main"><strong>${escapeHtml(row.schedule.name || 'Payday')}</strong><p>${row.amount ? `<span class="money">${money.format(row.amount)}</span> \xb7 ` : ''}Payday</p><span class="status paid">Money in</span></div><div class="payment-actions"><button class="mini-button" type="button" data-v13-adjust-payday="${row.schedule.id}" data-date="${v13DateKey(row.date)}">Adjust</button></div></article>`),
     ...payments.map((row) => {
       const status = paymentStatus(row.date, row.paid);
       return `<article class="payment-row"><div class="payment-main"><strong>${escapeHtml(row.name)}</strong><p>${row.type === 'card' ? 'Card minimum' : 'Bill'} \xb7 <span class="money">${money.format(row.amount)}</span></p><span class="status ${status.key}">${status.label}</span></div><div class="payment-actions"><button class="mini-button ${row.paid ? 'paid' : ''}" type="button" data-v13-paid="${row.id}" data-type="${row.type}" data-key="${row.key}">${row.paid ? '\u2713 Paid' : 'Mark paid'}</button></div></article>`;
@@ -105,6 +109,12 @@ function v13OpenDayDialog(date) {
     button.addEventListener('click', () => {
       togglePaid(button.dataset.v13Paid, button.dataset.type, button.dataset.key);
       $('v13DayDialog').close();
+    });
+  });
+  root.querySelectorAll('[data-v13-adjust-payday]').forEach((button) => {
+    button.addEventListener('click', () => {
+      $('v13DayDialog').close();
+      v13OpenPaydayAmountDialog(button.dataset.v13AdjustPayday, button.dataset.date);
     });
   });
   $('v13DayDialog').showModal();
