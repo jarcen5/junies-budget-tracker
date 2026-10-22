@@ -22,7 +22,7 @@
 .v13-two-week-day.outside { background: #fafafd; color: #a6a9b5; }
 .v13-two-week-day.today { box-shadow: inset 0 0 0 2px var(--accent); }
 .v13-day-number { display: block; margin-bottom: 5px; font-size: .72rem; font-weight: 900; }
-.v13-day-items { display; gap: 3px; min-width: 0; }
+.v13-day-items { display: grid; gap: 3px; min-width: 0; }
 .v13-day-chip { display: block; min-width: 0; overflow: hidden; padding: 3px 4px; border-radius: 6px; font-size: .56rem; font-weight: 800; white-space: nowrap; text-overflow: ellipsis; }
 .v13-day-chip.due { background: var(--warning-soft); color: var(--warning); }
 .v13-day-chip.paid { background: var(--success-soft); color: var(--success); text-decoration: line-through; }
