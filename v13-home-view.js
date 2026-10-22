@@ -26,15 +26,21 @@ function v13RenderHome() {
       <strong class="metric-value money">${money.format(due14)}</strong>
     </article>`;
 
-  const firstSunday = new Date(start);
-  firstSunday.setDate(start.getDate() - start.getDay());
-  const gridEnd = new Date(firstSunday.getFullYear(), firstSunday.getMonth(), firstSunday.getDate() + 13);
-  const gridPayments = v13PaymentsBetween(firstSunday, gridEnd);
-  const gridPaydays = v13PaydayOccurrencesBetween(firstSunday, gridEnd);
+  const gridStart = start;
+  const gridEnd = end;
+  const gridPayments = payments;
+  const gridPaydays = paydays;
+  const weekdays = document.querySelector('.v13-two-week-weekdays');
+  if (weekdays) {
+    weekdays.innerHTML = Array.from({ length: 7 }, (_, index) => {
+      const date = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + index);
+      return `<span>${new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(date)}</span>`;
+    }).join('');
+  }
 
   $('v13TwoWeekGrid').innerHTML = Array.from({ length: 14 }, (_, index) => {
-    const date = new Date(firstSunday.getFullYear(), firstSunday.getMonth(), firstSunday.getDate() + index);
-    const inRange = date >= start && date <= end;
+    const date = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + index);
+    const inRange = true;
     const dayPayments = gridPayments.filter((row) => v13DateKey(row.date) === v13DateKey(date));
     const dayPaydays = gridPaydays.filter((row) => v13DateKey(row.date) === v13DateKey(date));
     const items = [
