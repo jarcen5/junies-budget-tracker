@@ -102,6 +102,25 @@ function v13InjectUI() {
       </dialog>`);
 
     document.body.insertAdjacentHTML('beforeend', `
+      <dialog id="v13PaydayAmountOverrideDialog" class="v11-dialog">
+        <form id="v13PaydayAmountOverrideForm" class="dialog-card">
+          <div class="dialog-header">
+            <div><p class="eyebrow">One-time paycheck</p><h2 id="v13PaydayAmountOverrideTitle">Adjust payday</h2></div>
+            <button class="icon-button" id="v13ClosePaydayAmountOverrideDialog" type="button" aria-label="Close">\xd7</button>
+          </div>
+          <label><span>Pay date</span><input id="v13PaydayAmountOverrideDate" type="date" required /></label>
+          <label><span>Take-home amount</span><input id="v13PaydayAmountOverrideValue" type="number" min="0" step="0.01" inputmode="decimal" required /></label>
+          <p class="helper" id="v13PaydayAmountOverrideCurrent"></p>
+          <div class="dialog-actions">
+            <button class="secondary-button" id="v13ClearPaydayAmountOverride" type="button">Use normal amount</button>
+            <span class="dialog-spacer"></span>
+            <button class="secondary-button" id="v13CancelPaydayAmountOverride" type="button">Cancel</button>
+            <button class="primary-button" type="submit">Save one-time amount</button>
+          </div>
+        </form>
+      </dialog>`);
+
+    document.body.insertAdjacentHTML('beforeend', `
       <dialog id="v13PlanDialog" class="v11-dialog">
         <form id="v13PlanForm" class="dialog-card">
           <div class="dialog-header">
