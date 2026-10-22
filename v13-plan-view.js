@@ -15,12 +15,13 @@ function v13RenderPlanPage() {
     const upcoming = v13PaydayOccurrencesBetween(new Date(), new Date(Date.now() + 120 * 86400000)).find((row) => row.schedule.id === schedule.id);
     return `<article class="account-card v13-payday-card">
       <div class="account-icon">+$</div>
-      <div class="account-main"><strong>${escapeHtml(schedule.name || 'Payday')}</strong><p>${escapeHtml(V13_PAY_FREQUENCIES[schedule.frequency] || 'Every 2 weeks')}${schedule.amount ? ` \xb7 <span class="money">${money.format(schedule.amount)}</span>` : ''}</p><div class="account-details"><span>${upcoming ? `Next ${v13LongDate(upcoming.date)}` : 'No upcoming date'}</span></div></div>
-      <button class="mini-button" type="button" data-v13-edit-payday="${schedule.id}">Edit</button>
+      <div class="account-main"><strong>${escapeHtml(schedule.name || 'Payday')}</strong><p>${escapeHtml(V13_PAY_FREQUENCIES[schedule.frequency] || 'Every 2 weeks')}${schedule.amount ? ` \xb7 Normal <span class="money">${money.format(schedule.amount)}</span>` : ''}</p><div class="account-details"><span>${upcoming ? `Next ${v13LongDate(upcoming.date)}${upcoming.amount ? ` \xb7 ${money.format(upcoming.amount)}` : ''}` : 'No upcoming date'}</span></div></div>
+      <div class="payment-actions">${upcoming ? `<button class="mini-button" type="button" data-v13-adjust-payday="${schedule.id}" data-date="${v13DateKey(upcoming.date)}">Adjust next</button>` : ''}<button class="mini-button" type="button" data-v13-edit-payday="${schedule.id}">Edit</button></div>
     </article>`;
   }).join('') : `<div class="empty-state"><strong>Add your payday</strong><p>Your payday will appear on the home view and calendar, and it lets purchase plans calculate how much to set aside per paycheck.</p><button class="primary-button compact" id="v13EmptyAddPayday" type="button">Add payday</button></div>`;
 
   $('v13PaydayList').querySelectorAll('[data-v13-edit-payday]').forEach((button) => button.addEventListener('click', () => v13OpenPaydayDialog(button.dataset.v13EditPayday)));
+  $('v13PaydayList').querySelectorAll('[data-v13-adjust-payday]').forEach((button) => button.addEventListener('click', () => v13OpenPaydayAmountDialog(button.dataset.v13AdjustPayday, button.dataset.date)));
   $('v13EmptyAddPayday')?.addEventListener('click', () => v13OpenPaydayDialog());
 
   const plans = [...v13Plans()].sort((a, b) => {
@@ -75,7 +76,7 @@ function v13EnhanceCalendarPaydays() {
       button.type = 'button';
       button.className = 'calendar-item v13-calendar-payday';
       button.innerHTML = `<span>${escapeHtml(row.schedule.name || 'Payday')}</span>${row.amount ? ` <span class="money">${money.format(row.amount)}</span>` : ''}`;
-      button.addEventListener('click', () => v13OpenPaydayDialog(row.schedule.id));
+      button.addEventListener('click', () => v13OpenPaydayAmountDialog(row.schedule.id, v13DateKey(row.date)));
       day.append(button);
     });
   });
