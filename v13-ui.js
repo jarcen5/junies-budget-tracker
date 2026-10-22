@@ -94,7 +94,7 @@ function v13InjectUI() {
           <div class="dialog-actions">
             <button class="danger-button" id="v13DeletePayday" type="button" hidden>Delete</button>
             <span class="dialog-spacer"></span>
-            <button class="secondary-buttton" id="v13CancelPayday" type="button">Cancel</button>
+            <button class="secondary-button" id="v13CancelPayday" type="button">Cancel</button>
             <button class="primary-button" type="submit">Save</button>
           </div>
         </form>
