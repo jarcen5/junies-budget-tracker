@@ -158,7 +158,7 @@ function v13PaydayOccurrencesBetween(start, end) {
     }
     while (occurrence <= through) {
       if (occurrence >= anchor) {
-        results.push({ schedule, date: new Date(occurrence), amount: v13PaydayAmountForDate(schedule, date) });
+        results.push({ schedule, date: new Date(occurrence), amount: v13PaydayAmountForDate(schedule, occurrence) });
       }
       occurrence = new Date(occurrence.getFullYear(), occurrence.getMonth(), occurrence.getDate() + stepDays);
     }
