@@ -62,6 +62,22 @@ function v13BindEvents() {
   $('v13CancelPayday')?.addEventListener('click', () => $('v13PaydayDialog').close());
   $('v13DeletePayday')?.addEventListener('click', v13DeletePayday);
 
+  $('v13PaydayAmountOverrideForm')?.addEventListener('submit', v13SavePaydayAmountOverride);
+  $('v13ClosePaydayAmountOverrideDialog')?.addEventListener('click', () => $('v13PaydayAmountOverrideDialog').close());
+  $('v13CancelPaydayAmountOverride')?.addEventListener('click', () => $('v13PaydayAmountOverrideDialog').close());
+  $('v13ClearPaydayAmountOverride')?.addEventListener('click', v13ClearPaydayAmountOverride);
+  $('v13PaydayAmountOverrideDate')?.addEventListener('change', () => {
+    const schedule = v13Paydays().find((item) => item.id === v13AdjustingPaydayId);
+    const date = v13ParseDate($('v13PaydayAmountOverrideDate').value);
+    if (!schedule || !date) return;
+    v13AdjustingPaydayDate = v13DateKey(date);
+    $('v13PaydayAmountOverrideValue').value = v13PaydayAmountForDate(schedule, date);
+    const normal = Math.max(Number(schedule.amount) || 0, 0);
+    $('v13PaydayAmountOverrideCurrent').textContent = normal
+      ? `Normal take-home amount: ${money.format(normal)}. This change will apply only to ${v13LongDate(date)}.`
+      : `This change will apply only to ${v13LongDate(date)}.`;
+  });
+
   $('v13PlanForm')?.addEventListener('submit', v13SavePlan);
   $('v13ClosePlanDialog')?.addEventListener('click', () => $('v13PlanDialog').close());
   $('v13CancelPlan')?.addEventListener('click', () => $('v13PlanDialog').close());
