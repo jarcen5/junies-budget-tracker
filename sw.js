@@ -1,5 +1,5 @@
-const CACHE = 'junies-budget-tracker-v1.2';
-const ASSETS = ['./', './index.html', './styles.css', './payments.css', './v11.css', './v12.css', './app.js', './payments.js', './v11.js', './push.js', './v12.js', './manifest.webmanifest', './icon.svg'];
+const CACHE = 'junies-budget-tracker-v1.3';
+const ASSETS = ['./', './index.html', './styles.css', './payments.css', './v11.css', './v12.css', './v13.css', './app.js', './payments.js', './v11.js', './push.js', './v12.js', './v13-core.js', './v13-ui.js', './v13-home-view.js', './v13-bills-cards.js', './v13-payday-plan.js', './v13-plan-view.js', './v13-runtime.js', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)));
