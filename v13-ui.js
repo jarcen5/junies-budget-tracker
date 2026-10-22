@@ -108,7 +108,7 @@ function v13InjectUI() {
             <div><p class="eyebrow">One-time paycheck</p><h2 id="v13PaydayAmountOverrideTitle">Adjust payday</h2></div>
             <button class="icon-button" id="v13ClosePaydayAmountOverrideDialog" type="button" aria-label="Close">\xd7</button>
           </div>
-          <label><span>Pay date</span><input id="v13PaydayAmountOverrideDate" type="date" required /></label>
+          <label><span>Pay date</span><input id="v13PaydayAmountOverrideDate" type="date" required readonly /></label>
           <label><span>Take-home amount</span><input id="v13PaydayAmountOverrideValue" type="number" min="0" step="0.01" inputmode="decimal" required /></label>
           <p class="helper" id="v13PaydayAmountOverrideCurrent"></p>
           <div class="dialog-actions">
