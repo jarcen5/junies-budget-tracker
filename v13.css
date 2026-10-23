@@ -1,0 +1,83 @@
+
+.v13-ready .bottom-nav { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.v13-ready .nav-item { padding-inline: 1px; font-size: .55rem; }
+.v13-ready #dashboardTab { order: 1; }
+.v13-ready #calendarTab { order: 2; }
+.v13-ready #accountsTab { order: 3; }
+.v13-ready #billsTab { order: 4; }
+.v13-ready #v13PlanTab { order: 5; }
+.v13-ready #settingsTab { order: 6; }
+
+.v13-home-legacy { display: none !important; }
+.v13-home-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 4px 2px 12px; }
+.v13-home-heading h2 { margin: 0; }
+.v13-home-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
+.v13-home-metrics .metric-card { min-height: 94px; }
+.v13-home-metrics small { display: block; margin-top: 5px; color: var(--muted); font-size: .68rem; font-weight: 700; }
+.v13-payday-metric { border-color: #b9decf; background: #f0fbf6; }
+.v13-two-week-weekdays, .v13-two-week-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.v13-two-week-weekdays { padding: 0 2px 6px; color: var(--muted); font-size: .64rem; font-weight: 800; text-align: center; }
+.v13-two-week-grid { overflow: hidden; border: 1px solid var(--border); border-radius: 18px; background: var(--border); gap: 1px; }
+.v13-two-week-day { min-width: 0; min-height: 92px; padding: 7px 4px; border: 0; background: var(--surface); color: var(--text); text-align: left; }
+.v13-two-week-day.outside { background: #fafafd; color: #a6a9b5; }
+.v13-two-week-day.today { box-shadow: inset 0 0 0 2px var(--accent); }
+.v13-day-number { display: block; margin-bottom: 5px; font-size: .72rem; font-weight: 900; }
+.v13-day-items { display: grid; gap: 3px; min-width: 0; }
+.v13-day-chip { display: block; min-width: 0; overflow: hidden; padding: 3px 4px; border-radius: 6px; font-size: .56rem; font-weight: 800; white-space: nowrap; text-overflow: ellipsis; }
+.v13-day-chip.due { background: var(--warning-soft); color: var(--warning); }
+.v13-day-chip.paid { background: var(--success-soft); color: var(--success); text-decoration: line-through; }
+.v13-day-chip.payday { background: #e3f7ed; color: #147a54; }
+.v13-more { color: var(--muted); font-size: .55rem; font-weight: 800; }
+.v13-agenda-heading { margin-top: 24px; }
+.v13-payday-row { border-color: #c9e8db; background: #f7fcf9; }
+.v13-calendar-payday { background: #e3f7ed !important; color: #147a54 !important; }
+
+.v13-card-tools { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.v13-card-tools label { display: grid; flex: 1; gap: 5px; color: var(--muted); font-size: .72rem; font-weight: 800; }
+.v13-card-tools input { width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); color: var(--text); }
+.v13-sort-note { flex: 0 0 auto; padding-bottom: 10px; color: var(--muted); font-size: .7rem; font-weight: 700; }
+.v13-hidden-util { display: none !important; }
+.v13-inline-amount { display: inline !important; }
+.v13-ready #cardsSummary .v12-five-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.v13-ready #cardsSummary .metric-card { min-height: 84px; }
+
+.v13-plan-summary { margin-top: -2px; }
+.v13-plan-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.v13-plan-section-heading { margin-top: 24px; }
+.v13-payday-card .account-icon { background: #e3f7ed; color: #147a54; }
+.v13-plan-card { padding: 15px; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); }
+.v13-plan-card.completed { opacity: .66; }
+.v13-plan-card.completed .v13-plan-card-head strong { text-decoration: line-through; }
+.v13-plan-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.v13-plan-card-head > div { min-width: 0; }
+.v13-plan-card-head strong { display: block; }
+.v13-plan-priority { display: inline-flex; margin-bottom: 5px; padding: 2px 7px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: .64rem; font-weight: 900; }
+.v13-progress { height: 8px; margin: 12px 0 9px; overflow: hidden; border-radius: 999px; background: #ebedf4; }
+.v13-progress span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+.v13-plan-details { display: flex; flex-wrap: wrap; gap: 5px 12px; color: var(--muted); font-size: .72rem; }
+.v13-paycheck-suggestion { margin: 10px 0 0; color: var(--accent); font-size: .76rem; font-weight: 800; }
+.v13-plan-actions { display: flex; gap: 7px; margin-top: 12px; }
+
+#v13PaydayDialog select, #v13PlanDialog select { width: 100%; min-height: 44px; padding: 9px 11px; border: 1px solid #d9dce6; border-radius: 12px; background: #fbfbfd; color: var(--text); }
+.v13-amount-choice { display: grid; gap: 8px; margin-bottom: 12px; }
+.v13-amount-choice .choice-card { display: flex !important; align-items: flex-start; gap: 9px; padding: 11px; border: 1px solid var(--border); border-radius: 13px; }
+.v13-amount-choice .choice-card input { margin-top: 2px; }
+.v13-amount-choice .choice-card span { margin: 0 !important; }
+.v13-amount-choice .choice-card strong, .v13-amount-choice .choice-card small { display: block; }
+.v13-amount-choice .choice-card small { margin-top: 2px; }
+.v13-amount-help { display: block; margin-top: 6px; line-height: 1.35; }
+
+@media (min-width: 640px) {
+  .v13-plan-metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .v13-ready .bottom-nav { padding-inline: 2px; }
+  .v13-ready .nav-item { font-size: .5rem; }
+  .v13-ready .nav-item span { font-size: 1rem; }
+  .v13-home-metrics { grid-template-columns: 1fr 1fr; }
+  .v13-home-metrics .metric-card:first-child { grid-column: 1 / -1; }
+  .v13-two-week-day { min-height: 78px; padding: 5px 3px; }
+  .v13-day-chip { font-size: .5rem; padding-inline: 3px; }
+  .v13-card-tools { align-items: stretch; flex-direction: column; }
+  .v13-sort-note { padding-bottom: 0; }
+}
