@@ -165,18 +165,18 @@ function v14RenderPaymentCards() {
 
   const rows = v14BillRowsForSelectedMonth();
   const groups = new Map();
-  rows.forEach((row) => {
-    const name = v14PaymentCardName(row.bill);
+
+  state.bills.forEach((bill) => {
+    const name = v14PaymentCardName(bill);
     if (!name) return;
     const key = name.toLowerCase();
-    if (!groups.has(key)) groups.set(key, { name, rows: [] });
-    groups.get(key).rows.push(row);
+    if (!groups.has(key)) groups.set(key, { name, bills: [] });
+    groups.get(key).bills.push(bill);
   });
 
-  const assignedIds = new Set(state.bills.filter((bill) => v14PaymentCardName(bill)).map((bill) => bill.id));
   const unassignedCount = state.bills.filter((bill) => !v14PaymentCardName(bill)).length;
 
-  if (!groups.size && !assignedIds.size) {
+  if (!groups.size) {
     root.innerHTML = `<div class="empty-state"><strong>No payment cards assigned yet</strong><p>Assign bills to the cards you use to pay them. You can use a tracked card or type another card name.</p><button class="primary-button compact" id="v14EmptyAssignBills" type="button">Assign bills</button></div>`;
     $('v14EmptyAssignBills')?.addEventListener('click', () => v14OpenAssignBillsDialog());
     return;
@@ -184,24 +184,34 @@ function v14RenderPaymentCards() {
 
   const ordered = [...groups.values()].sort((a, b) => a.name.localeCompare(b.name));
   root.innerHTML = ordered.map((group) => {
-    const total = group.rows.reduce((sum, row) => sum + row.amount, 0);
-    const unpaidRows = group.rows.filter((row) => !row.paid);
+    const groupIds = new Set(group.bills.map((bill) => bill.id));
+    const monthRows = rows.filter((row) => groupIds.has(row.bill.id));
+    const total = monthRows.reduce((sum, row) => sum + row.amount, 0);
+    const unpaidRows = monthRows.filter((row) => !row.paid);
     const unpaid = unpaidRows.reduce((sum, row) => sum + row.amount, 0);
     const card = v14FindTrackedCard(group.name);
     const available = v14CurrentAvailable(card);
     const enough = available !== null ? available + 0.005 >= unpaid : null;
     const coverage = card
-      ? `<div class="v14-coverage ${enough ? 'enough' : 'short'}"><strong>${enough ? 'Enough available credit' : `Short by ${money.format(Math.max(unpaid - available, 0))}`}</strong><span>Current available <span class="money">${money.format(available)}</span> · unpaid bills <span class="money">${money.format(unpaid)}</span></span></div>`
+      ? `<div class="v14-coverage ${enough ? 'enough' : 'short'}"><strong>${enough ? 'Enough available credit' : `Short by ${money.format(Math.max(unpaid - available, 0))}`}</strong><span>Current available <span class="money">${money.format(available)}</span> · unpaid bills this month <span class="money">${money.format(unpaid)}</span></span></div>`
       : `<div class="v14-coverage untracked"><strong>Card not tracked</strong><span>Add “${escapeHtml(group.name)}” to Cards if you want an available-credit check.</span></div>`;
 
     return `<article class="v14-payment-card-group">
       <div class="v14-payment-card-head">
-        <div><span class="v14-card-label">Paid with</span><strong>${escapeHtml(group.name)}</strong></div>
+        <div><span class="v14-card-label">Paid with</span><strong>${escapeHtml(group.name)}</strong><small>${group.bills.length} assigned bill${group.bills.length === 1 ? '' : 's'}</small></div>
         <div class="v14-payment-card-total"><span>This month</span><strong class="money">${money.format(total)}</strong></div>
       </div>
       ${coverage}
       <div class="v14-payment-card-bills">
-        ${group.rows.map((row) => `<div class="v14-payment-card-bill"><span><strong>${escapeHtml(row.bill.name)}</strong><small>Due ${v13DateLabel(row.date)} · ${row.paid ? 'Paid' : 'Still due'}</small></span><strong class="money">${money.format(row.amount)}</strong></div>`).join('')}
+        ${group.bills.sort((a, b) => String(a.name || '').localeCompare(String(b.name || ''))).map((bill) => {
+          const billRows = monthRows.filter((row) => row.bill.id === bill.id);
+          const billTotal = billRows.reduce((sum, row) => sum + row.amount, 0);
+          const billUnpaid = billRows.filter((row) => !row.paid).reduce((sum, row) => sum + row.amount, 0);
+          const detail = billRows.length
+            ? `${billRows.length > 1 ? `${billRows.length} payments · ` : ''}${billUnpaid > 0 ? `${money.format(billUnpaid)} still due` : 'Paid for this month'}`
+            : 'Not due this month';
+          return `<div class="v14-payment-card-bill"><span><strong>${escapeHtml(bill.name)}</strong><small>${detail}</small></span><strong class="money">${billRows.length ? money.format(billTotal) : '—'}</strong></div>`;
+        }).join('')}
       </div>
       <div class="v14-payment-card-actions"><button class="mini-button" type="button" data-v14-manage-card="${escapeHtml(group.name)}">Manage bills</button></div>
     </article>`;
