@@ -425,7 +425,7 @@ function setAccountType(type) {
 }
 
 function exportBackup() {
-  const payload = { version: 1.3, exportedAt: new Date().toISOString(), data: state };
+  const payload = { version: 1.4, exportedAt: new Date().toISOString(), data: state };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
