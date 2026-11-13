@@ -350,6 +350,9 @@ function v14BindEvents() {
   $('v14ClearCardAssignments')?.addEventListener('click', v14ClearAssignments);
   $('itemForm').addEventListener('submit', v14CapturePaymentCard, true);
   $('itemForm').addEventListener('submit', v14PersistPaymentCard);
+  $('paymentMonthPicker')?.addEventListener('change', () => setTimeout(() => {
+    if (typeof v13RenderCards === 'function') v13RenderCards();
+  }, 0));
 }
 
 function v14Init() {
