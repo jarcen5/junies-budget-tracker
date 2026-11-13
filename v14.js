@@ -2,7 +2,8 @@ let v14SubmitMeta = null;
 let v14AssignOriginalCard = '';
 
 function v14PaymentCardName(bill) {
-  return String(bill?.paidWithCard || '').trim();
+  const tracked = bill?.paidWithCardId ? state.cards.find((card) => card.id === bill.paidWithCardId) : null;
+  return String(tracked?.name || bill?.paidWithCard || '').trim();
 }
 
 function v14PaymentCardNames() {
@@ -117,12 +118,15 @@ function v14SaveAssignments(event) {
   const selected = new Set([...$('v14AssignBillList').querySelectorAll('input[type="checkbox"]:checked')].map((input) => input.value));
   const original = v14AssignOriginalCard.toLowerCase();
 
+  const trackedCard = v14FindTrackedCard(name);
   state.bills.forEach((bill) => {
     const current = v14PaymentCardName(bill);
     if (selected.has(bill.id)) {
       bill.paidWithCard = name;
+      bill.paidWithCardId = trackedCard?.id || '';
     } else if (original && current.toLowerCase() === original) {
       bill.paidWithCard = '';
+      bill.paidWithCardId = '';
     }
   });
 
@@ -141,7 +145,10 @@ function v14ClearAssignments() {
   if (!original) return;
   if (!confirm(`Remove ${original} from all assigned bills?`)) return;
   state.bills.forEach((bill) => {
-    if (v14PaymentCardName(bill).toLowerCase() === original.toLowerCase()) bill.paidWithCard = '';
+    if (v14PaymentCardName(bill).toLowerCase() === original.toLowerCase()) {
+      bill.paidWithCard = '';
+      bill.paidWithCardId = '';
+    }
   });
   saveState();
   $('v14AssignBillsDialog').close();
@@ -297,7 +304,9 @@ function v14PersistPaymentCard() {
   let bill = v14SubmitMeta.existingId ? state.bills.find((item) => item.id === v14SubmitMeta.existingId) : null;
   if (!bill) bill = state.bills.find((item) => !v14SubmitMeta.beforeIds.has(item.id));
   if (bill) {
+    const trackedCard = v14FindTrackedCard(v14SubmitMeta.paidWithCard);
     bill.paidWithCard = v14SubmitMeta.paidWithCard;
+    bill.paidWithCardId = trackedCard?.id || '';
     saveState();
   }
   v14SubmitMeta = null;
