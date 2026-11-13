@@ -251,6 +251,18 @@ function v14DecorateBillRows() {
   });
 }
 
+function v14ApplyCardSearch() {
+  const input = $('v13CardSearch');
+  const list = $('cardsList');
+  if (!input || !list) return;
+  const query = String(input.value || '').trim().toLowerCase();
+  v13CardQuery = input.value || '';
+  list.querySelectorAll('.account-card').forEach((account) => {
+    const name = String(account.dataset.v13CardName || account.querySelector('.account-main > strong')?.textContent || '').trim().toLowerCase();
+    account.classList.toggle('v14-card-filtered', Boolean(query) && !name.includes(query));
+  });
+}
+
 function v14DecorateCards() {
   const list = $('cardsList');
   if (!list) return;
@@ -283,6 +295,7 @@ function v14DecorateCards() {
     if (history) main.insertBefore(coverage, history);
     else main.append(coverage);
   });
+  v14ApplyCardSearch();
 }
 
 function v14CapturePaymentCard() {
@@ -343,6 +356,7 @@ if (typeof v13RenderCards === 'function') {
 }
 
 function v14BindEvents() {
+  $('v13CardSearch')?.addEventListener('input', v14ApplyCardSearch);
   $('v14AssignBillsButton')?.addEventListener('click', () => v14OpenAssignBillsDialog());
   $('v14AssignBillsForm')?.addEventListener('submit', v14SaveAssignments);
   $('v14CloseAssignBillsDialog')?.addEventListener('click', () => $('v14AssignBillsDialog').close());
