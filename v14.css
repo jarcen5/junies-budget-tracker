@@ -1,0 +1,197 @@
+.v14-payment-cards-section {
+  margin-top: 22px;
+}
+.v14-payment-cards-help {
+  margin: -4px 0 12px;
+  line-height: 1.45;
+}
+.v14-payment-card-groups {
+  display: grid;
+  gap: 12px;
+}
+.v14-payment-card-group {
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+}
+.v14-payment-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.v14-payment-card-head > div:first-child {
+  min-width: 0;
+}
+.v14-card-label {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--muted);
+  font-size: .66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.v14-payment-card-head strong {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.v14-payment-card-total {
+  flex: 0 0 auto;
+  text-align: right;
+}
+.v14-payment-card-total span {
+  display: block;
+  color: var(--muted);
+  font-size: .66rem;
+  font-weight: 700;
+}
+.v14-coverage {
+  display: grid;
+  gap: 2px;
+  margin: 12px 0;
+  padding: 10px 11px;
+  border-radius: 12px;
+  font-size: .74rem;
+}
+.v14-coverage span {
+  color: inherit;
+  opacity: .85;
+}
+.v14-coverage.enough {
+  background: var(--success-soft);
+  color: var(--success);
+}
+.v14-coverage.short {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+.v14-coverage.untracked {
+  background: var(--surface-soft);
+  color: var(--muted);
+}
+.v14-payment-card-bills {
+  display: grid;
+  gap: 7px;
+}
+.v14-payment-card-bill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+}
+.v14-payment-card-bill > span {
+  min-width: 0;
+}
+.v14-payment-card-bill strong,
+.v14-payment-card-bill small {
+  display: block;
+}
+.v14-payment-card-bill small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: .68rem;
+}
+.v14-payment-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.v14-unassigned-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 13px;
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  color: var(--muted);
+  font-size: .74rem;
+}
+.v14-paid-with-tag {
+  margin-top: 6px;
+  color: var(--accent);
+  font-size: .7rem;
+  font-weight: 700;
+}
+.v14-field-help {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: .68rem;
+  line-height: 1.35;
+}
+.v14-assign-bill-list {
+  display: grid;
+  gap: 7px;
+  max-height: 45vh;
+  margin: 4px 0 12px;
+  overflow-y: auto;
+}
+.v14-assign-bill-row {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 11px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.v14-assign-bill-row input {
+  flex: 0 0 auto;
+  margin-top: 3px;
+}
+.v14-assign-bill-row > span {
+  margin: 0 !important;
+}
+.v14-assign-bill-row strong,
+.v14-assign-bill-row small {
+  display: block;
+}
+.v14-assign-bill-row small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: .68rem;
+}
+.v14-card-bill-coverage {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  padding: 10px 11px;
+  border-radius: 12px;
+}
+.v14-card-bill-coverage.enough {
+  background: var(--success-soft);
+  color: var(--success);
+}
+.v14-card-bill-coverage.short {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+.v14-card-bill-coverage > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.v14-card-bill-coverage small {
+  color: inherit;
+  opacity: .86;
+  line-height: 1.35;
+}
+.v14-coverage-status {
+  font-size: .7rem;
+}
+@media (max-width: 520px) {
+  .v14-payment-card-head,
+  .v14-payment-card-bill {
+    align-items: flex-start;
+  }
+  .v14-payment-card-bill {
+    gap: 8px;
+  }
+  .v14-card-bill-coverage > div {
+    align-items: flex-start;
+  }
+}
